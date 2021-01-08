@@ -1,0 +1,9 @@
+{
+  "demo-api/demo-api.raml": "RAML 1.0",
+  "loan-ms/loan-microservice.json": { "type": "OAS 2.0", "mime": "application/json" },
+  "petstore/petstore.json": { "type": "OAS 2.0", "mime": "application/json" },
+  "APIC-298/APIC-298.json": { "type": "OAS 2.0", "mime": "application/json" },
+  "APIC-289/APIC-289.yaml": { "type": "OAS 2.0", "mime": "application/yaml" },
+  "SE-12752/SE-12752.raml": "RAML 1.0",
+  "multi-server/multi-server.yaml": { "type": "OAS 3.0", "mime": "application/yaml" }
+}

@@ -1,0 +1,27 @@
+#%RAML 1.0
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/ccc5e2f5-eff9-4cc9-acb9-203c55f08d19/trn-sys-api-gabe/{version} #
+title: One Query Param Required
+types:
+  queryParam:
+    minProperties: 1
+    properties:
+      seriesNumber?: string
+      featureNumber?: string
+  otherParam:
+    properties:
+      unioned: string
+/test:
+  get:
+    queryString: queryParam
+/union:
+  get:
+    queryString: queryParam | otherParam
+/scalar:
+  get:
+    queryString:
+      type: string
+      example: test
+/array:
+  get:
+    queryString:
+      type: otherParam[]
