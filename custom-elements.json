@@ -1,0 +1,338 @@
+{
+  "version": "experimental",
+  "tags": [
+    {
+      "name": "api-url-editor",
+      "path": "./api-url-editor.js",
+      "description": "`api-url-editor`\nAn AMF powered url editor for the HTTP request editor.\n\nThe element is regular input element that is adjusted to work with URL\ndata.\nIt supports validation for URL values that may contain variables.",
+      "attributes": [
+        {
+          "name": "noLabelFloat",
+          "description": "When set the input label won't float when focused/has input",
+          "type": "boolean"
+        },
+        {
+          "name": "disabled",
+          "description": "Renders input element disabled.",
+          "type": "boolean"
+        },
+        {
+          "name": "required",
+          "description": "When set the input is marked as required input.",
+          "type": "boolean"
+        },
+        {
+          "name": "readOnly",
+          "description": "Makes the input element read only.",
+          "type": "boolean"
+        },
+        {
+          "name": "value",
+          "description": "A value produced by this editor - the URL.",
+          "type": "string"
+        },
+        {
+          "name": "baseUri",
+          "description": "Value or RAML's base URI property.\n\nNote, the element doesn't check if `baseUri` is relative or not.\nHosting application have to take care of that.",
+          "type": "string"
+        },
+        {
+          "name": "endpointPath",
+          "description": "Currently selected endpoint relative URI.\nIt is available in RAML definition.",
+          "type": "string"
+        },
+        {
+          "name": "compatibility",
+          "description": "Enables compatibility with Anypoint components.",
+          "type": "boolean"
+        },
+        {
+          "name": "outlined",
+          "description": "Enables Material Design outlined style",
+          "type": "boolean"
+        },
+        {
+          "name": "validator",
+          "description": "Name of the validator or validators to use.\nIf the element should be validated by more than one validator then separate names with\nspace. See docs for `ValidatorMixin` for description of how to define a\nvalidator.",
+          "type": "string"
+        },
+        {
+          "name": "invalid",
+          "description": "True if the last call to `validate` is invalid.",
+          "type": "boolean"
+        }
+      ],
+      "properties": [
+        {
+          "name": "styles",
+          "type": "CSSResult"
+        },
+        {
+          "name": "inputElement",
+          "type": "AnypointInput"
+        },
+        {
+          "name": "noLabelFloat",
+          "attribute": "noLabelFloat",
+          "description": "When set the input label won't float when focused/has input",
+          "type": "boolean"
+        },
+        {
+          "name": "disabled",
+          "attribute": "disabled",
+          "description": "Renders input element disabled.",
+          "type": "boolean"
+        },
+        {
+          "name": "required",
+          "attribute": "required",
+          "description": "When set the input is marked as required input.",
+          "type": "boolean"
+        },
+        {
+          "name": "readOnly",
+          "attribute": "readOnly",
+          "description": "Makes the input element read only.",
+          "type": "boolean"
+        },
+        {
+          "name": "value",
+          "attribute": "value",
+          "description": "A value produced by this editor - the URL.",
+          "type": "string"
+        },
+        {
+          "name": "baseUri",
+          "attribute": "baseUri",
+          "description": "Value or RAML's base URI property.\n\nNote, the element doesn't check if `baseUri` is relative or not.\nHosting application have to take care of that.",
+          "type": "string"
+        },
+        {
+          "name": "endpointPath",
+          "attribute": "endpointPath",
+          "description": "Currently selected endpoint relative URI.\nIt is available in RAML definition.",
+          "type": "string"
+        },
+        {
+          "name": "queryModel",
+          "description": "The query properties model.\nUse `api-url-data-model` to compute model for the view.",
+          "type": "AmfFormItem[]"
+        },
+        {
+          "name": "pathModel",
+          "description": "The URI properties model.\nUse `api-url-data-model` to compute model for the view.",
+          "type": "AmfFormItem[]"
+        },
+        {
+          "name": "compatibility",
+          "attribute": "compatibility",
+          "description": "Enables compatibility with Anypoint components.",
+          "type": "boolean"
+        },
+        {
+          "name": "outlined",
+          "attribute": "outlined",
+          "description": "Enables Material Design outlined style",
+          "type": "boolean"
+        },
+        {
+          "name": "amf",
+          "description": "AMF model used to compute view model."
+        },
+        {
+          "name": "onchange",
+          "type": "EventListener"
+        },
+        {
+          "name": "eventsTarget",
+          "description": "By default the element listens on the `window` object. If this value is set,\nthen all events listeners will be attached to this object instead of `window`.",
+          "type": "EventTarget"
+        },
+        {
+          "name": "validator",
+          "attribute": "validator",
+          "description": "Name of the validator or validators to use.\nIf the element should be validated by more than one validator then separate names with\nspace. See docs for `ValidatorMixin` for description of how to define a\nvalidator.",
+          "type": "string"
+        },
+        {
+          "name": "validationStates",
+          "description": "After calling `validate()` this is be populated by latest result of the\ntest for each validator. Result item contains following properties:\n\n- validator `string` Name of the validator\n- valid `boolean` Result of the test\n- message `string` Error message\n\nThis property is `undefined` if `validator` is not set.",
+          "type": "ValidationResult[]"
+        },
+        {
+          "name": "invalid",
+          "attribute": "invalid",
+          "description": "True if the last call to `validate` is invalid.",
+          "type": "boolean"
+        }
+      ],
+      "events": [
+        {
+          "name": "pathmodelchange"
+        },
+        {
+          "name": "querymodelchange"
+        },
+        {
+          "name": "change"
+        }
+      ]
+    },
+    {
+      "name": "api-url-params-editor",
+      "path": "./api-url-params-editor.js",
+      "description": "An element to render query / uri parameters form from AMF schema",
+      "attributes": [
+        {
+          "name": "allowCustom",
+          "description": "When set, renders add custom parameter button in query parameters form",
+          "type": "boolean"
+        },
+        {
+          "name": "compatibility",
+          "description": "Enables compatibility with Anypoint components.",
+          "type": "boolean"
+        },
+        {
+          "name": "outlined",
+          "description": "Enables Material Design outlined style",
+          "type": "boolean"
+        },
+        {
+          "name": "readOnly",
+          "description": "When set the editor is in read only mode.",
+          "type": "boolean"
+        },
+        {
+          "name": "disabled",
+          "description": "When set the editor disabled all controls",
+          "type": "boolean"
+        },
+        {
+          "name": "autoValidate",
+          "description": "When set the editor runs the validation logic on the element when values change",
+          "type": "boolean"
+        },
+        {
+          "name": "emptyMessage",
+          "description": "When set the editor renders an empty message when there are no parameters ro render.",
+          "type": "boolean"
+        },
+        {
+          "name": "validator",
+          "description": "Name of the validator or validators to use.\nIf the element should be validated by more than one validator then separate names with\nspace. See docs for `ValidatorMixin` for description of how to define a\nvalidator.",
+          "type": "string"
+        },
+        {
+          "name": "invalid",
+          "description": "True if the last call to `validate` is invalid.",
+          "type": "boolean"
+        }
+      ],
+      "properties": [
+        {
+          "name": "styles",
+          "type": "CSSResult"
+        },
+        {
+          "name": "queryModel",
+          "description": "Computed query parameters model.\n\nNote, this element won't accept AMF data.",
+          "type": "AmfFormItem[]"
+        },
+        {
+          "name": "pathModel",
+          "description": "Computed URI parameters model.\n\nNote, this element won't accept AMF data.",
+          "type": "AmfFormItem[]"
+        },
+        {
+          "name": "allowCustom",
+          "attribute": "allowCustom",
+          "description": "When set, renders add custom parameter button in query parameters form",
+          "type": "boolean"
+        },
+        {
+          "name": "compatibility",
+          "attribute": "compatibility",
+          "description": "Enables compatibility with Anypoint components.",
+          "type": "boolean"
+        },
+        {
+          "name": "outlined",
+          "attribute": "outlined",
+          "description": "Enables Material Design outlined style",
+          "type": "boolean"
+        },
+        {
+          "name": "readOnly",
+          "attribute": "readOnly",
+          "description": "When set the editor is in read only mode.",
+          "type": "boolean"
+        },
+        {
+          "name": "disabled",
+          "attribute": "disabled",
+          "description": "When set the editor disabled all controls",
+          "type": "boolean"
+        },
+        {
+          "name": "autoValidate",
+          "attribute": "autoValidate",
+          "description": "When set the editor runs the validation logic on the element when values change",
+          "type": "boolean"
+        },
+        {
+          "name": "emptyMessage",
+          "attribute": "emptyMessage",
+          "description": "When set the editor renders an empty message when there are no parameters ro render.",
+          "type": "boolean"
+        },
+        {
+          "name": "hasQueryParameters",
+          "type": "boolean"
+        },
+        {
+          "name": "hasPathParameters",
+          "type": "boolean"
+        },
+        {
+          "name": "queryValue",
+          "type": "Record<string, any>"
+        },
+        {
+          "name": "pathValue",
+          "type": "Record<string, any>"
+        },
+        {
+          "name": "validator",
+          "attribute": "validator",
+          "description": "Name of the validator or validators to use.\nIf the element should be validated by more than one validator then separate names with\nspace. See docs for `ValidatorMixin` for description of how to define a\nvalidator.",
+          "type": "string"
+        },
+        {
+          "name": "validationStates",
+          "description": "After calling `validate()` this is be populated by latest result of the\ntest for each validator. Result item contains following properties:\n\n- validator `string` Name of the validator\n- valid `boolean` Result of the test\n- message `string` Error message\n\nThis property is `undefined` if `validator` is not set.",
+          "type": "ValidationResult[]"
+        },
+        {
+          "name": "invalid",
+          "attribute": "invalid",
+          "description": "True if the last call to `validate` is invalid.",
+          "type": "boolean"
+        },
+        {
+          "name": "eventsTarget",
+          "description": "By default the element listens on the `window` object. If this value is set,\nthen all events listeners will be attached to this object instead of `window`.",
+          "type": "EventTarget"
+        }
+      ],
+      "events": [
+        {
+          "name": "pathmodelchange"
+        },
+        {
+          "name": "querymodelchange"
+        }
+      ]
+    }
+  ]
+}
