@@ -12,11 +12,7 @@
     "alwaysStrict": true,
     "esModuleInterop": true
   },
-  "include": [
-    "**/*.js",
-    "node_modules/@open-wc/**/*.js", 
-    "src/ApiUrlDataModel.d.ts"  
-, "src/ApiUrlParamsEditorElement.d.ts"  ],
+  "include": [ "**/*.js", "node_modules/@open-wc/**/*.js",  "src/ApiUrlDataModel.d.ts", "src/ApiUrlParamsEditorElement.d.ts"],
   "exclude": [
     "node_modules/!(@open-wc)"
   ]

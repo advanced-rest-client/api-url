@@ -107,7 +107,7 @@ export declare class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMi
    */
   amf: any;
 
-  onvalue: EventListener;
+  onchange: EventListener;
 
   constructor();
 
@@ -122,13 +122,6 @@ export declare class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMi
   _detachListeners(node: EventTarget): void;
 
   _focusHandler(): void;
-
-  /**
-   * Registers an event handler for given type
-   * @param eventType Event type (name)
-   * @param value The handler to register
-   */
-  _registerCallback(eventType: string, value: EventListener): void;
 
   /**
    * Computes endpoint's full URI with (possibly) variables in it.
@@ -234,7 +227,7 @@ export declare class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMi
    * @param param Query parameter value as string. Eg `name=value`
    * @param obj Target for values
    */
-  _applyQueryParamToObject(param: string, obj: any): void;
+  _applyQueryParamToObject(param: string, obj: Record<string, string|string[]>): void;
   
   /**
    * Applies values from the `values` array to the uri parameters which names are in the `names` array.
@@ -251,6 +244,8 @@ export declare class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMi
    * @param map A map where keys are names of the parameters in the `queryModel` list
    */
   _applyQueryParamsValues(map: any): void;
+
+  _notifyChange(): void;
 
   _findModelIndex(name: string, type: string): number;
 

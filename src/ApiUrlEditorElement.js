@@ -5,9 +5,8 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable class-methods-use-this */
 import { html, css, LitElement } from 'lit-element';
-import { ValidatableMixin } from '@anypoint-web-components/validatable-mixin/validatable-mixin.js';
-import { EventsTargetMixin } from '@advanced-rest-client/events-target-mixin/events-target-mixin.js';
-import { ApiViewModel } from '@api-components/api-forms';
+import { ValidatableMixin } from '@anypoint-web-components/validatable-mixin';
+import { EventsTargetMixin } from '@advanced-rest-client/events-target-mixin';
 import '@anypoint-web-components/anypoint-input/anypoint-input.js';
 import { UrlEventTypes, urlChangeAction } from './events/UrlEvents.js';
 
@@ -205,8 +204,8 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
   /**
    * @return {EventListener} Previously registered handler for `value-changed` event
    */
-  get onvalue() {
-    return this['_onvalue-changed'];
+  get onchange() {
+    return this._onchange;
   }
 
   /**
@@ -214,8 +213,16 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
    * @param {EventListener} value A callback to register. Pass `null` or `undefined`
    * to clear the listener.
    */
-  set onvalue(value) {
-    this._registerCallback('value-changed', value);
+  set onchange(value) {
+    if (this._onchange) {
+      this.removeEventListener('change', this._onchange);
+    }
+    if (typeof value !== 'function') {
+      this._onchange = null;
+      return;
+    }
+    this._onchange = value;
+    this.addEventListener('change', value);
   }
 
   constructor() {
@@ -270,24 +277,6 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
     if (node) {
       node.inputElement.focus();
     }
-  }
-
-  /**
-   * Registers an event handler for given type
-   * @param {string} eventType Event type (name)
-   * @param {EventListener} value The handler to register
-   */
-  _registerCallback(eventType, value) {
-    const key = `_on${eventType}`;
-    if (this[key]) {
-      this.removeEventListener(eventType, this[key]);
-    }
-    if (typeof value !== 'function') {
-      this[key] = null;
-      return;
-    }
-    this[key] = value;
-    this.addEventListener(eventType, value);
   }
 
   /**
@@ -554,7 +543,7 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
     }
     const matchesNew = value.match(/[^&?]*?=[^&?]*/g);
     if (matchesNew) {
-      const params = {};
+      const params = /** @type Record<string, string|string[]> */ ({});
       matchesNew.forEach((item) => this._applyQueryParamToObject(item, params));
       this._applyQueryParamsValues(params);
     }
@@ -569,7 +558,7 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
    * Repeated parameters will have array value instead of string value.
    *
    * @param {string} param Query parameter value as string. Eg `name=value`
-   * @param {Object} obj Target for values
+   * @param {Record<string, string|string[]>} obj Target for values
    */
   _applyQueryParamToObject(param, obj) {
     if (!param || !obj || typeof param !== 'string') {
@@ -579,9 +568,9 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
     const name = parts[0];
     if (name in obj) {
       if (!Array.isArray(obj[name])) {
-        obj[name] = [obj[name]];
+        obj[name] = [/** @type string */(obj[name])];
       }
-      obj[name].push(parts[1]);
+      /** @type string[] */(obj[name]).push(parts[1]);
     } else {
       obj[name] = parts[1];
     }
@@ -620,7 +609,7 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
   /**
    * Applies query parameters values to the render list.
    *
-   * @param {Object} map A map where keys are names of the parameters in the
+   * @param {Record<string, string|string[]>} map A map where keys are names of the parameters in the
    * `queryModel` list
    */
   _applyQueryParamsValues(map) {
@@ -710,7 +699,11 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
     if (!this.shadowRoot) {
       return true;
     }
-    return this.inputElement.validate();
+    const { inputElement } = this;
+    if (inputElement) {
+      return inputElement.validate();
+    }
+    return true;
   }
 
   /**
@@ -755,26 +748,6 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
       paramsNames = paramsNames.map((item) => item.substr(1, item.length - 2));
     }
     return paramsNames;
-  }
-
-  /**
-   * Creates a view model for a property that has not been originally in
-   * the URL model (e.g. custom query parameter)
-   *
-   * @param {string} name Parameter name
-   * @param {string} value Parameter value
-   * @returns {AmfFormItem} View model
-   */
-  _buildPropertyItem(name, value) {
-    const item = /** @type AmfFormItem */ ({
-      name,
-      value,
-      schema: {
-        apiType: 'string'
-      }
-    });
-    const worker = new ApiViewModel({ amf: this.amf });
-    return worker.buildProperty(item);
   }
 
   /**

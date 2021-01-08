@@ -188,6 +188,9 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
    * @returns {boolean} True when the model items are valid
    */
   [validateModel](model) {
+    if (!Array.isArray(model)) {
+      return true;
+    }
     const item = model.some((entry) => {
       const { name, value, schema={} } = entry;
       if (!schema.required) {
@@ -290,7 +293,6 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
     const item = worker.buildProperty(defaults);
     const model = this.queryModel || [];
     this.queryModel = [...model, item];
-    this.optionalOpened = true;
   }
 
   /**
@@ -355,7 +357,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
    * @return {TemplateResult|string} The template for the query parameters form
    */
   [queryFormTemplate]() {
-    const { queryModel, hasQueryParameters } = this;
+    const { queryModel=[], hasQueryParameters } = this;
     if (!hasQueryParameters) {
       return '';
     }
@@ -473,6 +475,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
       aria-label="Activate to remove this parameter"
       ?disabled="${readOnly||disabled}"
       ?compatibility="${compatibility}"
+      class="remove-param"
     >
       <arc-icon icon="removeCircleOutline"></arc-icon>
     </anypoint-icon-button>
@@ -522,7 +525,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
       ?outlined="${outlined}"
       ?readOnly="${readOnly}"
       pattern="\\S*"
-      @value-changed="${this[customInputHandler]}"
+      @input="${this[customInputHandler]}"
       noLabelFloat
     >
       <label slot="label">Param name</label>
@@ -548,7 +551,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
       ?compatibility="${compatibility}"
       ?outlined="${outlined}"
       ?readOnly="${readOnly}"
-      @value-changed="${this[customInputHandler]}"
+      @input="${this[customInputHandler]}"
       noLabelFloat
     >
       <label slot="label">Param value</label>
