@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+  <title>api-url-editor demo</title>
+  <style>
+  .main.centered {
+    max-width: 1440px !important;
+  }
+
+  body.styled {
+    --error-color: red;
+  }
+
+  body.styled.dark {
+    --anypoint-input-compatibility-label-color: #F5F5F5;
+    --anypoint-input-background-color: rgba(255, 255, 255, 0.04);
+    --anypoint-input-label-color: #fff;
+    --anypoint-input-input-color: #fff;
+    --anypoint-input-border-bottom-color: #fff;
+    --anypoint-input-focused-border-bottom-color: #fff;
+    --anypoint-input-label-background-color: rgb(66, 66, 66);
+    --anypoint-input-compatibility-focus-background-color: #3a3b3c;
+    --anypoint-input-compatibility-focus-border-color: #178bea;
+    --anypoint-input-info-message-color: #fff;
+  }
+
+  api-url-editor,
+  .base-uri-selector {
+    width: 700px;
+  }
+
+  api-url-params-editor[invalid] {
+    border: 1px var(--error-color) dashed;
+    padding: 4px;
+  }
+  </style>
+</head>
+
+<body>
+  <div id="demo"></div>
+  <script type="module" src="api-url-editor.js"></script>
+</body>
+
+</html>

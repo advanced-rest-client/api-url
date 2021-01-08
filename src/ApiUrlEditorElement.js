@@ -328,8 +328,12 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
     }
     uri = this._applyUriParams(uri, pathModel);
     uri = this._applyQueryParams(uri, queryModel);
+    if (uri === this.value) {
+      return;
+    }
     this.value = uri;
     urlChangeAction(this, uri);
+    this._notifyChange();
     await this.updateComplete;
     this.validate();
   }
@@ -557,6 +561,7 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
 
     this.value = value;
     urlChangeAction(this, value);
+    this._notifyChange();
   }
 
   /**
@@ -608,19 +613,8 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
     }
     if (changed) {
       this.pathModel = [...this.pathModel];
-      this._notifyPathModel(this.pathModel);
+      this.dispatchEvent(new CustomEvent('pathmodelchange'));
     }
-  }
-
-  /**
-   * @param {AmfFormItem[]} value
-   */
-  _notifyPathModel(value) {
-    this.dispatchEvent(new CustomEvent('pathmodelchange', {
-      detail: {
-        value
-      }
-    }));
   }
 
   /**
@@ -651,20 +645,12 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
     });
     if (changed) {
       this.queryModel = [...this.queryModel];
-      this._notifyQueryModel(this.queryModel);
+      this.dispatchEvent(new CustomEvent('querymodelchange'));
     }
   }
 
-  /**
-   * Dispatches `querymodelchange` custom event.
-   * @param {AmfFormItem} value
-   */
-  _notifyQueryModel(value) {
-    this.dispatchEvent(new CustomEvent('querymodelchange', {
-      detail: {
-        value
-      }
-    }));
+  _notifyChange() {
+    this.dispatchEvent(new Event('change'));
   }
 
   _findModelIndex(name, type) {
@@ -698,6 +684,7 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
       return;
     }
     this.value = e.detail.value;
+    this._notifyChange();
   }
 
   _getValidity() {

@@ -16,6 +16,10 @@ export declare interface ParamsObject {
  * The element is regular input element that is adjusted to work with URL
  * data.
  * It supports validation for URL values that may contain variables.
+ * 
+ * @event pathmodelchange
+ * @event querymodelchange
+ * @event change
  */
 export declare class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitElement)) {
   get styles(): CSSResult;
@@ -241,20 +245,12 @@ export declare class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMi
    */
   _applyUriValues(values: string[], names: string[]): void;
 
-  _notifyPathModel(value: AmfFormItem[]): void;
-
   /**
    * Applies query parameters values to the render list.
    *
    * @param map A map where keys are names of the parameters in the `queryModel` list
    */
   _applyQueryParamsValues(map: any): void;
-
-  /**
-   * Dispatches `querymodelchange` custom event.
-   * @param value
-   */
-  _notifyQueryModel(value: AmfFormItem): void;
 
   _findModelIndex(name: string, type: string): number;
 
