@@ -348,7 +348,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
       return '';
     }
     return html`
-    <div role="heading" aria-level="1" slot="title">URI parameters</div>
+    <div role="heading" aria-level="1" class="form-title">URI parameters</div>
     ${this[paramsFormTemplate](pathModel, 'pathModel')}
     `;
   }
@@ -362,7 +362,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
       return '';
     }
     return html`
-    <div role="heading" aria-level="1" slot="title">Query parameters</div>
+    <div role="heading" aria-level="1" class="form-title">Query parameters</div>
     ${this[paramsFormTemplate](queryModel, 'queryModel')}
     ${this[addTemplate]()}
     `;

@@ -50,4 +50,11 @@ api-form-item {
 .param-name {
   margin-right: 4px;
 }
+
+.form-title {
+  margin: 0.83em 8px;
+  letter-spacing: 0.1rem;
+  font-size: 20px;
+  font-weight: 200;
+}
 `;
