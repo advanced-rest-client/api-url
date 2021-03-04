@@ -52,9 +52,10 @@ api-form-item {
 }
 
 .form-title {
-  margin: 0.83em 8px;
-  letter-spacing: 0.1rem;
-  font-size: 20px;
-  font-weight: 200;
+  margin: 0.83em 0;
+  font-size: var(--arc-font-subhead-font-size, 20px);
+  font-weight: var(--arc-font-subhead-font-weight, 200);
+  line-height: var(--arc-font-subhead-line-height);
+  letter-spacing: var(--arc-font-subhead-letter-spacing, 0.1rem);
 }
 `;
