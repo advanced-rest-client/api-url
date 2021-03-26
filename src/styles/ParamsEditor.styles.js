@@ -36,7 +36,7 @@ anypoint-input {
 
 api-form-item {
   flex: 1;
-  margin: 10px 0;
+  margin: 20px 0;
 }
 
 .form-row {
