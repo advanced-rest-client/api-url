@@ -36,7 +36,11 @@ anypoint-input {
 
 api-form-item {
   flex: 1;
-  margin: 20px 0;
+  margin: 10px 0;
+}
+
+:host([compatibility]) api-form-item {
+  margin-bottom: 30px;
 }
 
 .form-row {
