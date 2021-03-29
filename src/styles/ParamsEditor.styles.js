@@ -39,6 +39,10 @@ api-form-item {
   margin: 10px 0;
 }
 
+:host([compatibility]) api-form-item {
+  margin-bottom: 30px;
+}
+
 .form-row {
   min-height: 48px;
 }
