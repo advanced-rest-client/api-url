@@ -89,6 +89,9 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
        * When set the editor renders an empty message when there are no parameters ro render.
        */
       emptyMessage: { type: Boolean },
+      /**
+       * When set, optional params can be disabled
+       */
       allowDisableParams: { type: Boolean },
       allowHideOptional: { type: Boolean },
       showOptional: { type: Boolean },
@@ -138,6 +141,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
     this.autoValidate = false;
     this.emptyMessage = false;
     this.allowHideOptional = false;
+    this.allowDisableParams = false;
     /** 
      * @type {AmfFormItem[]}
      */
@@ -439,8 +443,9 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
    * @return {TemplateResult|string} Template for the parameter name input
    */
   [paramToggleTemplate](item, index, type) {
+    const { allowDisableParams } = this;
     const { schema={} } = item;
-    if (!schema.isCustom) {
+    if ((!schema.isCustom && !allowDisableParams) || schema.required) {
       return '';
     }
     const { compatibility, readOnly, disabled } = this;
