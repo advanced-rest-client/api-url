@@ -32,6 +32,8 @@ export const enabledHandler = Symbol('enabledHandler');
 export const apiFormHandler = Symbol('apiFormHandler');
 export const removeParamHandler = Symbol('removeParamHandler');
 export const addCustomHandler = Symbol('addCustomHandler');
+export const showOptionalTemplate = Symbol('showOptionalTemplate');
+export const showOptionalHandler = Symbol('showOptionalHandler');
 
 /**
  * An element to render query / uri parameters form from AMF schema
@@ -87,6 +89,9 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
        * When set the editor renders an empty message when there are no parameters ro render.
        */
       emptyMessage: { type: Boolean },
+      allowDisableParams: { type: Boolean },
+      allowHideOptional: { type: Boolean },
+      showOptional: { type: Boolean },
     };
   }
 
@@ -132,6 +137,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
     this.allowCustom = false;
     this.autoValidate = false;
     this.emptyMessage = false;
+    this.allowHideOptional = false;
     /** 
      * @type {AmfFormItem[]}
      */
@@ -261,6 +267,14 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
   }
 
   /**
+   * Set the `showOptional` property when the switch changes
+   * @param {CustomEvent<{ value: boolean }>} e 
+   */
+  [showOptionalHandler](e) {
+    this.showOptional = e.detail.value;
+  }
+
+  /**
    * Updates the `value` from the current model and dispatches the value change event
    * @param {string} type
    */
@@ -361,9 +375,11 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
     if (!hasQueryParameters) {
       return '';
     }
+    const filteredModel = queryModel.filter(this._shouldFilterQueryParam.bind(this));
     return html`
     <div role="heading" aria-level="1" class="form-title">Query parameters</div>
-    ${this[paramsFormTemplate](queryModel, 'queryModel')}
+    ${this[showOptionalTemplate]()}
+    ${this[paramsFormTemplate](filteredModel, 'queryModel')}
     ${this[addTemplate]()}
     `;
   }
@@ -379,6 +395,26 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
       ${model.map((item, index) => this[itemTemplate](item, index, type))}
     </div>
     `;
+  }
+
+  /**
+   * 
+   */
+  [showOptionalTemplate]() {
+    const { allowHideOptional, showOptional, compatibility } = this;
+    if (!allowHideOptional) {
+      return html``;
+    }
+    return html`<anypoint-switch
+      .checked="${showOptional}"
+      @checked-changed="${this[showOptionalHandler]}"
+      title="Show optional parameters"
+      aria-label="Activate to toggle enabled state of this item"
+      class="param-switch"
+      ?compatibility="${compatibility}"
+    >
+      Show optional parameters
+    </anypoint-switch>`;
   }
 
   /**
@@ -557,5 +593,13 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
       <label slot="label">Param value</label>
     </anypoint-input>
     `;
+  }
+
+  _shouldFilterQueryParam(/** @type {AmfFormItem} */ queryModel) {
+    const { allowHideOptional, showOptional } = this;
+    if (!allowHideOptional || showOptional) {
+      return true;
+    }
+    return (queryModel.schema || {}).required;
   }
 }
