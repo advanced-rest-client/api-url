@@ -409,7 +409,8 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
   }
 
   /**
-   * 
+   * Renders the switch to hide optional parameters if it is enabled
+   * @return {TemplateResult}
    */
   [showOptionalTemplate]() {
     const { allowHideOptional, _showOptional, compatibility } = this;

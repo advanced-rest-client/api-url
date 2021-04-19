@@ -22,6 +22,8 @@ export declare const enabledHandler: unique symbol;
 export declare const apiFormHandler: unique symbol;
 export declare const removeParamHandler: unique symbol;
 export declare const addCustomHandler: unique symbol;
+export declare const showOptionalTemplate: unique symbol;
+export declare const showOptionalHandler: unique symbol;
 
 /**
  * An element to render query / uri parameters form from AMF schema
@@ -79,6 +81,18 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
    * @attribute
    */
   emptyMessage: boolean;
+  /**
+   * When set, optional params can be disabled
+   */
+  allowDisableParams: boolean;
+  /**
+   * When set, optional parameters can be hidden
+   */
+  allowHideOptional: boolean;
+  /**
+   * Shows or hides optional query params
+   */
+  _showOptional: boolean;
 
   /**
    * @returns {boolean} True when query parameters section should be rendered
@@ -129,6 +143,8 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
   [removeParamHandler](e: Event): void;
 
   [customInputHandler](e: Event): void;
+
+  [showOptionalHandler](e: Event): void
 
   /**
    * Updates the `value` from the current model and dispatches the value change event
@@ -201,4 +217,9 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
    * @return The template for the custom parameter value input
    */
   [customValueInput](item: AmfFormItem, index: number, type: string): TemplateResult;
+
+  /**
+   * Renders the switch to hide optional parameters if it is enabled
+   */
+  [showOptionalTemplate](): TemplateResult;
 }
