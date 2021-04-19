@@ -134,6 +134,11 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
    */
   validateQueryParams(): boolean;
 
+  /**
+   * Determines whether query param should be filtered
+   */
+  _shouldFilterQueryParam(queryModel: AmfFormItem): boolean;
+
   [validateModel](model: AmfFormItem[]): boolean;
 
   [enabledHandler](e: CustomEvent): void;
