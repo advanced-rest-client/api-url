@@ -439,6 +439,7 @@ describe('ApiUrlParamsEditorElement', () => {
       const switchElem = element.shadowRoot.querySelector('anypoint-switch');
       assert.exists(switchElem);
       assert.equal(switchElem.getAttribute('title'), 'Show optional parameters');
+      assert.isFalse(switchElem.disabled);
     });
 
     it('should not render optional params when switch is off', async () => {
@@ -462,6 +463,13 @@ describe('ApiUrlParamsEditorElement', () => {
       element.shadowRoot.querySelector('anypoint-switch').click();
       await nextFrame();
       assert.isNotEmpty(element.shadowRoot.querySelectorAll('.params-list .form-row.form-item'));
+    });
+
+    it('should render switch disabled if there are no optional params', async () => {
+      const model = [{ name: 'x', value: 'y', schema: { required: true } }];
+      element.queryModel = model;
+      await nextFrame();
+      assert.isTrue(element.shadowRoot.querySelector('anypoint-switch').disabled);
     });
   });
 

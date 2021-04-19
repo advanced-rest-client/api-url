@@ -136,6 +136,11 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
     return this[serializeModel](pathModel);
   }
 
+  get _hasOptionalParams() {
+    const { queryModel } = this;
+    return queryModel.filter(qm => !qm.schema.required).length !== 0;
+  }
+
   constructor() {
     super();
 
@@ -424,6 +429,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
       aria-label="Activate to toggle enabled state of this item"
       class="param-switch"
       ?compatibility="${compatibility}"
+      ?disabled=${!this._hasOptionalParams}
     >
       Show optional parameters
     </anypoint-switch>`;
