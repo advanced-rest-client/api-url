@@ -93,8 +93,14 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
        * When set, optional params can be disabled
        */
       allowDisableParams: { type: Boolean },
+      /**
+       * When set, optional parameters can be hidden
+       */
       allowHideOptional: { type: Boolean },
-      showOptional: { type: Boolean },
+      /**
+       * Shows or hides optional query params
+       */
+      _showOptional: { type: Boolean },
     };
   }
 
@@ -142,6 +148,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
     this.emptyMessage = false;
     this.allowHideOptional = false;
     this.allowDisableParams = false;
+    this._showOptional = false;
     /** 
      * @type {AmfFormItem[]}
      */
@@ -271,11 +278,11 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
   }
 
   /**
-   * Set the `showOptional` property when the switch changes
+   * Set the `_showOptional` property when the switch changes
    * @param {CustomEvent<{ value: boolean }>} e 
    */
   [showOptionalHandler](e) {
-    this.showOptional = e.detail.value;
+    this._showOptional = e.detail.value;
   }
 
   /**
@@ -405,12 +412,12 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
    * 
    */
   [showOptionalTemplate]() {
-    const { allowHideOptional, showOptional, compatibility } = this;
+    const { allowHideOptional, _showOptional, compatibility } = this;
     if (!allowHideOptional) {
       return html``;
     }
     return html`<anypoint-switch
-      .checked="${showOptional}"
+      .checked="${_showOptional}"
       @checked-changed="${this[showOptionalHandler]}"
       title="Show optional parameters"
       aria-label="Activate to toggle enabled state of this item"
@@ -601,7 +608,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
   }
 
   _shouldFilterQueryParam(/** @type {AmfFormItem} */ queryModel) {
-    const { allowHideOptional, showOptional } = this;
+    const { allowHideOptional, _showOptional: showOptional } = this;
     if (!allowHideOptional || showOptional) {
       return true;
     }
