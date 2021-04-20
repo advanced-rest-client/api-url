@@ -4,7 +4,7 @@ A module that has a number of helper libraries and UIs that are used to build UR
 
 [![Published on NPM](https://img.shields.io/npm/v/@api-components/api-url.svg)](https://www.npmjs.com/package/@advanced-rest-client/api-url)
 
-[![Build Status](https://travis-ci.com/advanced-rest-client/api-url.svg)](https://travis-ci.com/advanced-rest-client/api-url)
+[![Tests and publishing](https://github.com/advanced-rest-client/api-url/actions/workflows/deployment.yml/badge.svg)](https://github.com/advanced-rest-client/api-url/actions/workflows/deployment.yml)
 
 ## Usage
 
