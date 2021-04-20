@@ -32,6 +32,8 @@ export const enabledHandler = Symbol('enabledHandler');
 export const apiFormHandler = Symbol('apiFormHandler');
 export const removeParamHandler = Symbol('removeParamHandler');
 export const addCustomHandler = Symbol('addCustomHandler');
+export const showOptionalTemplate = Symbol('showOptionalTemplate');
+export const showOptionalHandler = Symbol('showOptionalHandler');
 
 /**
  * An element to render query / uri parameters form from AMF schema
@@ -87,6 +89,18 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
        * When set the editor renders an empty message when there are no parameters ro render.
        */
       emptyMessage: { type: Boolean },
+      /**
+       * When set, optional params can be disabled
+       */
+      allowDisableParams: { type: Boolean },
+      /**
+       * When set, optional parameters can be hidden
+       */
+      allowHideOptional: { type: Boolean },
+      /**
+       * Shows or hides optional query params
+       */
+      _showOptional: { type: Boolean },
     };
   }
 
@@ -122,6 +136,11 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
     return this[serializeModel](pathModel);
   }
 
+  get _hasOptionalParams() {
+    const { queryModel } = this;
+    return queryModel.filter(qm => !qm.schema.required).length !== 0;
+  }
+
   constructor() {
     super();
 
@@ -132,6 +151,9 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
     this.allowCustom = false;
     this.autoValidate = false;
     this.emptyMessage = false;
+    this.allowHideOptional = false;
+    this.allowDisableParams = false;
+    this._showOptional = false;
     /** 
      * @type {AmfFormItem[]}
      */
@@ -261,6 +283,14 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
   }
 
   /**
+   * Set the `_showOptional` property when the switch changes
+   * @param {CustomEvent<{ value: boolean }>} e 
+   */
+  [showOptionalHandler](e) {
+    this._showOptional = e.detail.value;
+  }
+
+  /**
    * Updates the `value` from the current model and dispatches the value change event
    * @param {string} type
    */
@@ -361,9 +391,11 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
     if (!hasQueryParameters) {
       return '';
     }
+    const filteredModel = queryModel.filter(this._shouldFilterQueryParam.bind(this));
     return html`
     <div role="heading" aria-level="1" class="form-title">Query parameters</div>
-    ${this[paramsFormTemplate](queryModel, 'queryModel')}
+    ${this[showOptionalTemplate]()}
+    ${this[paramsFormTemplate](filteredModel, 'queryModel')}
     ${this[addTemplate]()}
     `;
   }
@@ -379,6 +411,28 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
       ${model.map((item, index) => this[itemTemplate](item, index, type))}
     </div>
     `;
+  }
+
+  /**
+   * Renders the switch to hide optional parameters if it is enabled
+   * @return {TemplateResult}
+   */
+  [showOptionalTemplate]() {
+    const { allowHideOptional, _showOptional, compatibility } = this;
+    if (!allowHideOptional) {
+      return html``;
+    }
+    return html`<anypoint-switch
+      .checked="${_showOptional}"
+      @checked-changed="${this[showOptionalHandler]}"
+      title="Show optional parameters"
+      aria-label="Activate to toggle enabled state of this item"
+      class="param-switch"
+      ?compatibility="${compatibility}"
+      ?disabled=${!this._hasOptionalParams}
+    >
+      Show optional parameters
+    </anypoint-switch>`;
   }
 
   /**
@@ -403,8 +457,9 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
    * @return {TemplateResult|string} Template for the parameter name input
    */
   [paramToggleTemplate](item, index, type) {
+    const { allowDisableParams } = this;
     const { schema={} } = item;
-    if (!schema.isCustom) {
+    if ((!schema.isCustom && !allowDisableParams) || schema.required) {
       return '';
     }
     const { compatibility, readOnly, disabled } = this;
@@ -557,5 +612,13 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
       <label slot="label">Param value</label>
     </anypoint-input>
     `;
+  }
+
+  _shouldFilterQueryParam(/** @type {AmfFormItem} */ queryModel) {
+    const { allowHideOptional, _showOptional: showOptional } = this;
+    if (!allowHideOptional || showOptional) {
+      return true;
+    }
+    return (queryModel.schema || {}).required;
   }
 }

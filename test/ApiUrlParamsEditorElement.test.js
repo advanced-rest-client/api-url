@@ -28,6 +28,20 @@ describe('ApiUrlParamsEditorElement', () => {
     return fixture(html`<api-url-params-editor emptyMessage></api-url-params-editor>`);
   }
 
+  /**
+   * @return {Promise<ApiUrlParamsEditorElement>} 
+   */
+   async function disableParamsFixture() {
+    return fixture(html`<api-url-params-editor allowDisableParams></api-url-params-editor>`);
+  }
+
+  /**
+   * @return {Promise<ApiUrlParamsEditorElement>} 
+   */
+   async function hideOptionalFixture() {
+    return fixture(html`<api-url-params-editor allowHideOptional></api-url-params-editor>`);
+  }
+
   describe('#hasQueryParameters', () => {
     let element = /** @type ApiUrlParamsEditorElement */ (null);
     beforeEach(async () => {
@@ -386,6 +400,76 @@ describe('ApiUrlParamsEditorElement', () => {
       await nextFrame();
       const node = element.shadowRoot.querySelector('.empty-message');
       assert.notOk(node);
+    });
+  });
+
+  describe('allowDisableParams', () => {
+    let element = /** @type ApiUrlParamsEditorElement */ (null);
+
+    beforeEach(async () => {
+      element = await disableParamsFixture();
+    });
+
+    it('should show the enable/disable switch', async () => {
+      const model = [{ name: 'x', value: 'y', schema: {} }];
+      element.queryModel = model;
+      await nextFrame();
+      assert.exists(element.shadowRoot.querySelector('.params-list anypoint-switch'));
+    });
+
+    it('should show the enable/disable switch for required param', async () => {
+      const model = [{ name: 'x', value: 'y', schema: { required: true } }];
+      element.queryModel = model;
+      await nextFrame();
+      assert.notExists(element.shadowRoot.querySelector('.params-list anypoint-switch'));
+    });
+  });
+
+  describe('allowHideOptional', () => {
+    let element = /** @type ApiUrlParamsEditorElement */ (null);
+
+    beforeEach(async () => {
+      element = await hideOptionalFixture();
+    });
+
+    it('should render the show/hide switch', async () => {
+      const model = [{ name: 'x', value: 'y', schema: {} }];
+      element.queryModel = model;
+      await nextFrame();
+      const switchElem = element.shadowRoot.querySelector('anypoint-switch');
+      assert.exists(switchElem);
+      assert.equal(switchElem.getAttribute('title'), 'Show optional parameters');
+      assert.isFalse(switchElem.disabled);
+    });
+
+    it('should not render optional params when switch is off', async () => {
+      const model = [{ name: 'x', value: 'y', schema: {} }];
+      element.queryModel = model;
+      await nextFrame();
+      assert.isEmpty(element.shadowRoot.querySelectorAll('.params-list .form-row.form-item'));
+    });
+
+    it('should render required params when switch is off', async () => {
+      const model = [{ name: 'x', value: 'y', schema: { required: true } }];
+      element.queryModel = model;
+      await nextFrame();
+      assert.isNotEmpty(element.shadowRoot.querySelectorAll('.params-list .form-row.form-item'));
+    });
+
+    it('should render optional params when switch is on', async () => {
+      const model = [{ name: 'x', value: 'y', schema: {} }];
+      element.queryModel = model;
+      await nextFrame();
+      element.shadowRoot.querySelector('anypoint-switch').click();
+      await nextFrame();
+      assert.isNotEmpty(element.shadowRoot.querySelectorAll('.params-list .form-row.form-item'));
+    });
+
+    it('should render switch disabled if there are no optional params', async () => {
+      const model = [{ name: 'x', value: 'y', schema: { required: true } }];
+      element.queryModel = model;
+      await nextFrame();
+      assert.isTrue(element.shadowRoot.querySelector('anypoint-switch').disabled);
     });
   });
 

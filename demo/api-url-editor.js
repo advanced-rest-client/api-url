@@ -17,7 +17,8 @@ class ApiDemo extends ApiDemoPage {
       'readonly', 'disabled', 'outlined', 'compatibility',
       'baseUri', 'endpointPath', 'queryModel', 'pathModel', 'selectedShape', 'selectedType',
       'mainNoLabelFloat', 'serverValue', 'serverType',
-      'allowCustomBaseUri', 'autoValidate', 'allowCustom', 'emptyMessage', 'urlValue'
+      'allowCustomBaseUri', 'autoValidate', 'allowCustom', 'emptyMessage', 'urlValue',
+      'allowHideOptional', 'allowDisableParams',
     ]);
 
     this.componentName = 'api-url-editor';
@@ -32,6 +33,8 @@ class ApiDemo extends ApiDemoPage {
     this.allowCustom = false;
     this.emptyMessage = false;
     this.urlValue = '';
+    this.allowHideOptional = false;
+    this.allowDisableParams = false;
 
     this.modelFactory = new ApiUrlDataModel();
 
@@ -181,6 +184,8 @@ class ApiDemo extends ApiDemoPage {
       allowCustom,
       emptyMessage,
       urlValue,
+      allowHideOptional,
+      allowDisableParams,
     } = this;
     return html`
     <section class="documentation-section">
@@ -222,6 +227,8 @@ class ApiDemo extends ApiDemoPage {
             ?allowCustom="${allowCustom}"
             ?autoValidate="${autoValidate}"
             ?emptyMessage="${emptyMessage}"
+            ?allowHideOptional="${allowHideOptional}"
+            ?allowDisableParams="${allowDisableParams}"
             @pathmodelchange="${this._pathModelChange}"
             @querymodelchange="${this._queryModelChange}"
           ></api-url-params-editor>
@@ -277,6 +284,20 @@ class ApiDemo extends ApiDemoPage {
           name="emptyMessage"
           @change="${this._toggleMainOption}"
         >Render empty message</anypoint-checkbox>
+
+        <anypoint-checkbox
+          aria-describedby="mainOptionsLabel"
+          slot="options"
+          name="allowHideOptional"
+          @change="${this._toggleMainOption}"
+        >Allow hide optional</anypoint-checkbox>
+
+        <anypoint-checkbox
+          aria-describedby="mainOptionsLabel"
+          slot="options"
+          name="allowDisableParams"
+          @change="${this._toggleMainOption}"
+        >Allow disable params</anypoint-checkbox>
       </arc-interactive-demo>
 
       ${urlValue ? html`<p>Produced value: ${urlValue}</p>` : ''}
