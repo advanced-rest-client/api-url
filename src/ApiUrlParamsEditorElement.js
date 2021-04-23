@@ -153,7 +153,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
     this.emptyMessage = false;
     this.allowHideOptional = false;
     this.allowDisableParams = false;
-    this._showOptional = false;
+    this._showOptional = true;
     /** 
      * @type {AmfFormItem[]}
      */
