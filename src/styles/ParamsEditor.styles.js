@@ -62,4 +62,10 @@ api-form-item {
   line-height: var(--arc-font-subhead-line-height);
   letter-spacing: var(--arc-font-subhead-letter-spacing, 0.1rem);
 }
+
+@media (max-width: 530px) {
+  .param-name {
+    width: 45%;
+  }
+}
 `;
