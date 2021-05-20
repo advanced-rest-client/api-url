@@ -40,7 +40,7 @@ api-form-item {
 }
 
 :host([compatibility]) api-form-item {
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
 .form-row {
