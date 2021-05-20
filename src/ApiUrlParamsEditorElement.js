@@ -391,11 +391,10 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
     if (!hasQueryParameters) {
       return '';
     }
-    const filteredModel = queryModel.filter(this._shouldFilterQueryParam.bind(this));
     return html`
     <div role="heading" aria-level="1" class="form-title">Query parameters</div>
     ${this[showOptionalTemplate]()}
-    ${this[paramsFormTemplate](filteredModel, 'queryModel')}
+    ${this[paramsFormTemplate](queryModel, 'queryModel')}
     ${this[addTemplate]()}
     `;
   }
@@ -441,8 +440,10 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
    * @param {string} type
    */
   [itemTemplate](item, index, type) {
+    const { allowHideOptional, _showOptional: showOptional } = this;
+    const hidden = allowHideOptional && !showOptional  && !item.schema.required;
     return html`
-    <div class="form-row form-item">
+    <div class="form-row form-item" ?hidden=${hidden}>
       ${this[paramToggleTemplate](item, index, type)}
       ${this[paramInputTemplate](item, index, type)}
       ${this[paramRemoveTemplate](item, index, type)}

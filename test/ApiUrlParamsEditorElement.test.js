@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import '../api-url-params-editor.js';
 
 /** @typedef {import('../index').ApiUrlParamsEditorElement} ApiUrlParamsEditorElement */
+/** @typedef {import('@api-components/api-forms').ApiFormItemElement} ApiFormItem */
 
 describe('ApiUrlParamsEditorElement', () => {
   /**
@@ -449,20 +450,22 @@ describe('ApiUrlParamsEditorElement', () => {
       assert.isNotEmpty(element.shadowRoot.querySelectorAll('.params-list .form-row.form-item'));
     });
 
-    it('should not render optional params when switch is off', async () => {
+    it('should hide optional params when switch is off', async () => {
       const model = [{ name: 'x', value: 'y', schema: {} }];
       element.queryModel = model;
       await nextFrame();
       element.shadowRoot.querySelector('anypoint-switch').click();
       await nextFrame();
-      assert.isEmpty(element.shadowRoot.querySelectorAll('.params-list .form-row.form-item'));
+      const formItem = /** @type ApiFormItem */ (element.shadowRoot.querySelector('.params-list .form-row.form-item'));
+      assert.isTrue(formItem.hidden);
     });
 
-    it('should render required params when switch is off', async () => {
+    it('should not hide required params when switch is off', async () => {
       const model = [{ name: 'x', value: 'y', schema: { required: true } }];
       element.queryModel = model;
       await nextFrame();
-      assert.isNotEmpty(element.shadowRoot.querySelectorAll('.params-list .form-row.form-item'));
+      const formItem = /** @type ApiFormItem */ (element.shadowRoot.querySelector('.params-list .form-row.form-item'));
+      assert.isFalse(formItem.hidden);
     });
 
     it('should render switch disabled if there are no optional params', async () => {
