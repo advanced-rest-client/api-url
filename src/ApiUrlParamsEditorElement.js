@@ -323,6 +323,9 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
     const item = worker.buildProperty(defaults);
     const model = this.queryModel || [];
     this.queryModel = [...model, item];
+    if (this.allowHideOptional && !this._showOptional) {
+      this._showOptional = true;
+    }
   }
 
   /**
