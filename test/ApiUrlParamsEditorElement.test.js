@@ -1,6 +1,6 @@
-import { fixture, assert, nextFrame, html, aTimeout } from '@open-wc/testing';
-import sinon from 'sinon';
-import '../api-url-params-editor.js';
+import { assert, aTimeout, fixture, html, nextFrame } from '@open-wc/testing'
+import sinon from 'sinon'
+import '../api-url-params-editor.js'
 
 /** @typedef {import('../index').ApiUrlParamsEditorElement} ApiUrlParamsEditorElement */
 /** @typedef {import('@api-components/api-forms').ApiFormItemElement} ApiFormItem */
@@ -473,6 +473,23 @@ describe('ApiUrlParamsEditorElement', () => {
       element.queryModel = model;
       await nextFrame();
       assert.isTrue(element.shadowRoot.querySelector('anypoint-switch').disabled);
+    });
+
+    it('toggles show optional when adding a new parameter', async () => {
+      const model = [{ name: 'x', value: 'y', schema: {} }];
+      element.queryModel = model;
+      element.allowCustom = true;
+      await nextFrame();
+      element.shadowRoot.querySelector('anypoint-switch').click();
+      await nextFrame();
+
+      const button = /** @type HTMLElement */ (element.shadowRoot.querySelector('.add-param'));
+      button.click();
+
+      element.addCustom();
+      await nextFrame();
+
+      assert.isTrue(element._showOptional);
     });
   });
 
