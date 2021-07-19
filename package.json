@@ -1,7 +1,7 @@
 {
   "name": "@api-components/api-url",
   "description": "A library containing helper classes and UIs to support URL editing in AMF powered URL editor.",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "license": "Apache-2.0",
   "main": "index.js",
   "module": "index.js",

@@ -422,7 +422,7 @@ describe('ApiUrlParamsEditorElement', () => {
       const model = [{ name: 'x', value: 'y', schema: { required: true } }];
       element.queryModel = model;
       await nextFrame();
-      assert.notExists(element.shadowRoot.querySelector('.params-list anypoint-switch'));
+      assert.exists(element.shadowRoot.querySelector('.params-list anypoint-switch'));
     });
   });
 
