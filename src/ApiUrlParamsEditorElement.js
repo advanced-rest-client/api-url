@@ -463,7 +463,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
   [paramToggleTemplate](item, index, type) {
     const { allowDisableParams } = this;
     const { schema={} } = item;
-    if ((!schema.isCustom && !allowDisableParams) || schema.required) {
+    if (!schema.isCustom && !allowDisableParams) {
       return '';
     }
     const { compatibility, readOnly, disabled } = this;
