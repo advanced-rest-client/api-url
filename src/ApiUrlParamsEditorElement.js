@@ -446,7 +446,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
     const { allowHideOptional, _showOptional: showOptional } = this;
     const hidden = allowHideOptional && !showOptional  && !item.schema.required;
     return html`
-    <div class="form-row form-item" ?hidden=${hidden}>
+    <div class="form-row form-item" ?hidden=${hidden} data-form-item="${item.name}">
       ${this[paramToggleTemplate](item, index, type)}
       ${this[paramInputTemplate](item, index, type)}
       ${this[paramRemoveTemplate](item, index, type)}
@@ -500,7 +500,6 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
     <api-form-item
       data-index="${index}"
       data-type="${type}"
-      data-input-name="${item.name}"
       .name="${item.name}"
       .value="${item.value}"
       @change="${this[apiFormHandler]}"
