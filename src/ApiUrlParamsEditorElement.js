@@ -500,6 +500,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
     <api-form-item
       data-index="${index}"
       data-type="${type}"
+      data-input-name="${item.name}"
       .name="${item.name}"
       .value="${item.value}"
       @change="${this[apiFormHandler]}"
