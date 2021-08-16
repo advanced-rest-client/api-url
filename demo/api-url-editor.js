@@ -160,6 +160,7 @@ class ApiDemo extends ApiDemoPage {
     return [
       ['demo-api', 'Demo API'],
       ['multi-server', 'Multiple servers'],
+      ['APIC-689', 'Optional enum values'],
     ].map(([file, label]) => html`
       <anypoint-item data-src="${file}-compact.json">${label} - compact model</anypoint-item>
       <anypoint-item data-src="${file}.json">${label}</anypoint-item>

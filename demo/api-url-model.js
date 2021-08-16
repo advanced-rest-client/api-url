@@ -69,6 +69,7 @@ class ApiDemo extends ApiDemoPage {
       ['APIC-298', 'OAS param names'],
       ['APIC-289', 'OAS param names (2)'],
       ['SE-12752', 'Query string support'],
+      ['APIC-689', 'Optional enum values'],
     ].map(([file, label]) => html`
     <anypoint-item data-src="${file}-compact.json">${label} - compact model</anypoint-item>
     <anypoint-item data-src="${file}.json">${label}</anypoint-item>

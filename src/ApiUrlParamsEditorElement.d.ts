@@ -83,10 +83,12 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
   emptyMessage: boolean;
   /**
    * When set, optional params can be disabled
+   * @attribute
    */
   allowDisableParams: boolean;
   /**
    * When set, optional parameters can be hidden
+   * @attribute
    */
   allowHideOptional: boolean;
   /**
