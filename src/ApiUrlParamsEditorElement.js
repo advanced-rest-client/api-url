@@ -309,7 +309,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
   }
 
   /**
-   * Focuses on the last header name filed
+   * Focuses on the last param name filed
    */
    [focusLastName]() {
     const row = this.shadowRoot.querySelector('.params-list > :last-child');
