@@ -264,6 +264,18 @@ describe('ApiUrlParamsEditorElement', () => {
       assert.lengthOf(element.queryModel, 1);
     });
 
+    it('should put focus in new input field when execute addCustom method', async () => {
+      const inputNotExisting = /** @type HTMLInputElement */ (element.shadowRoot.querySelector('.param-name'));
+      assert.isNull(inputNotExisting);
+
+      element.addCustom();
+      await aTimeout(100);
+
+      const inputAdded = /** @type HTMLInputElement */ (element.shadowRoot.querySelector('.param-name'));
+      assert.isDefined(inputAdded);
+      assert.isTrue(inputAdded.focused);
+    });
+
     it('sets `isCustom` property', () => {
       const button = /** @type HTMLElement */ (element.shadowRoot.querySelector('.add-param'));
       button.click();

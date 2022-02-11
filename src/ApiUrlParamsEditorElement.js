@@ -34,6 +34,7 @@ export const removeParamHandler = Symbol('removeParamHandler');
 export const addCustomHandler = Symbol('addCustomHandler');
 export const showOptionalTemplate = Symbol('showOptionalTemplate');
 export const showOptionalHandler = Symbol('showOptionalHandler');
+export const focusLastName = Symbol('focusLastName');
 
 /**
  * An element to render query / uri parameters form from AMF schema
@@ -308,6 +309,23 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
   }
 
   /**
+   * Focuses on the last param name filed
+   */
+   [focusLastName]() {
+    const row = this.shadowRoot.querySelector('.params-list > :last-child');
+    if (!row) {
+      return;
+    }
+    try {
+      const node = row.querySelector('.param-name');
+      // @ts-ignore
+      node.focus();
+    } catch (e) {
+      // ...
+    }
+  }
+
+  /**
    * Adds empty custom property to the list.
    */
   addCustom() {
@@ -326,6 +344,8 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
     if (this.allowHideOptional && !this._showOptional) {
       this._showOptional = true;
     }
+
+    setTimeout(() => this[focusLastName]());
   }
 
   /**
