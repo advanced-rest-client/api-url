@@ -507,17 +507,17 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
   }
   
   /**
-   * @param {string} str A key or value to encode as x-www-form-urlencoded.
+   * @param {string|number} value A key or value to encode as x-www-form-urlencoded.
    * @param {boolean} replacePlus When set it replaces `%20` with `+`.
    * @returns {string}
    */
-  _wwwFormUrlEncodePiece(str, replacePlus) {
+  _wwwFormUrlEncodePiece(value, replacePlus) {
     // Spec says to normalize newlines to \r\n and replace %20 spaces with +.
     // jQuery does this as well, so this is likely to be widely compatible.
-    if (!str) {
+    if (typeof value !== 'number' && !value) {
       return '';
     }
-    let result = encodeURIComponent(str.toString().replace(/\r?\n/g, '\r\n'));
+    let result = encodeURIComponent(value.toString().replace(/\r?\n/g, '\r\n'));
     if (replacePlus) {
       result = result.replace(/%20/g, '+');
     }
