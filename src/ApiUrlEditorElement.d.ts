@@ -208,10 +208,10 @@ export declare class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMi
   _wwwFormUrlEncode(object: ParamsObject[]): string
   
   /**
-   * @param str A key or value to encode as x-www-form-urlencoded.
+   * @param value A key or value to encode as x-www-form-urlencoded.
    * @param replacePlus When set it replaces `%20` with `+`.
    */
-  _wwwFormUrlEncodePiece(str: string, replacePlus: boolean): string;
+  _wwwFormUrlEncodePiece(value: string|number, replacePlus: boolean): string;
 
   /**
    * Updates URI / query parameters model from user input.

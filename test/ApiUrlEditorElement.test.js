@@ -827,6 +827,11 @@ describe('ApiUrlEditorElement', () => {
       const result = element._wwwFormUrlEncodePiece('test value', true);
       assert.equal(result, 'test+value');
     });
+
+    it('returns string containing 0 value', () => {
+      const result = element._wwwFormUrlEncodePiece(0, true);
+      assert.equal(result, '0');
+    });
   });
 
   describe('_wwwFormUrlEncode()', () => {
