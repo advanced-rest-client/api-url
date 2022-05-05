@@ -448,7 +448,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
       .checked="${_showOptional}"
       @checked-changed="${this[showOptionalHandler]}"
       title="Show optional parameters"
-      aria-label="Activate to toggle showing or hiding optional parameters"
+      aria-label="Toggle hide/show optional parameters"
       class="param-switch"
       ?compatibility="${compatibility}"
       ?disabled=${!this._hasOptionalParams}
@@ -494,7 +494,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
       .checked="${item.enabled}"
       @checked-changed="${this[enabledHandler]}"
       title="Enable / disable parameter"
-      aria-label="Activate to enable/disable this parameter"
+      aria-label="Toggle enabled/disabled"
       class="param-switch"
       ?disabled="${readOnly||disabled}"
       ?compatibility="${compatibility}"
@@ -551,7 +551,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
       data-type="${type}"
       @click="${this[removeParamHandler]}"
       title="Remove this parameter"
-      aria-label="Activate to remove this parameter"
+      aria-label="Remove"
       ?disabled="${readOnly||disabled}"
       ?compatibility="${compatibility}"
       class="remove-param"
@@ -577,7 +577,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
         class="add-param"
         ?compatibility="${compatibility}"
         ?disabled="${readOnly||disabled}"
-        aria-label="Activate to add a new query parameter to this form"
+        aria-label="Add query parameter"
       >
         <arc-icon icon="addCircleOutline"></arc-icon> Add
       </anypoint-button>
