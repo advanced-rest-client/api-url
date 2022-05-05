@@ -448,7 +448,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
       .checked="${_showOptional}"
       @checked-changed="${this[showOptionalHandler]}"
       title="Show optional parameters"
-      aria-label="Activate to toggle enabled state of this item"
+      aria-label="Activate to toggle showing or hiding optional parameters"
       class="param-switch"
       ?compatibility="${compatibility}"
       ?disabled=${!this._hasOptionalParams}
@@ -494,7 +494,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
       .checked="${item.enabled}"
       @checked-changed="${this[enabledHandler]}"
       title="Enable / disable parameter"
-      aria-label="Activate to toggle enabled state of this item"
+      aria-label="Activate to enable/disable this parameter"
       class="param-switch"
       ?disabled="${readOnly||disabled}"
       ?compatibility="${compatibility}"
