@@ -577,6 +577,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
         class="add-param"
         ?compatibility="${compatibility}"
         ?disabled="${readOnly||disabled}"
+        aria-label="Activate to add a new query parameter to this form"
       >
         <arc-icon icon="addCircleOutline"></arc-icon> Add
       </anypoint-button>
