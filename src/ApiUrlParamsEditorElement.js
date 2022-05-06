@@ -556,7 +556,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
       ?compatibility="${compatibility}"
       class="remove-param"
     >
-      <arc-icon icon="removeCircleOutline"></arc-icon>
+      <arc-icon icon="removeCircleOutline" aria-hidden="true"></arc-icon>
     </anypoint-icon-button>
     `;
   }
@@ -579,7 +579,7 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
         ?disabled="${readOnly||disabled}"
         aria-label="Add query parameter"
       >
-        <arc-icon icon="addCircleOutline"></arc-icon> Add
+        <arc-icon icon="addCircleOutline" aria-hidden="true"></arc-icon> Add
       </anypoint-button>
     </div>
     `;
