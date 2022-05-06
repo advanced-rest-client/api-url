@@ -548,5 +548,13 @@ describe('ApiUrlParamsEditorElement', () => {
         ignoredRules: ['color-contrast']
       });
     });
+
+    it('should have aria-label on add param button', async () => {
+      const element = await basicFixture();
+      element.allowCustom = true;
+      await nextFrame();
+      const addParamButton = element.shadowRoot.querySelector('.add-param')
+      assert.isNotEmpty(addParamButton.getAttribute('aria-label'))
+    });
   });
 });
