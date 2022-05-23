@@ -422,14 +422,20 @@ export class ApiUrlParamsEditorElement extends ValidatableMixin(EventsTargetMixi
     `;
   }
 
+  _hasRequiredParams(model) {
+    return model && model.find(item => item.schema && item.schema.required) !== undefined;
+  }
+
   /**
    * @param {AmfFormItem[]} model
    * @param {string} type
    * @return {TemplateResult} Template for the parameters list
    */
   [paramsFormTemplate](model, type) {
+    const noRequiredParams = !this._hasRequiredParams(model)
     return html`
     <div class="params-list">
+      <div class="required-params" ?hidden=${noRequiredParams}>* Required field</div>
       ${model.map((item, index) => this[itemTemplate](item, index, type))}
     </div>
     `;
