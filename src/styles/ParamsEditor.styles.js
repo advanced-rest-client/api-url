@@ -25,6 +25,10 @@ export default css`
 .params-list {
   margin: 12px 0;
 }
+  
+.required-params {
+  margin-bottom: 20px;
+}
 
 .param-switch {
   margin: 0px 8px 0px 0px;

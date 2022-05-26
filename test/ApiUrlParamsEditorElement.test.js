@@ -1,4 +1,4 @@
-import { assert, aTimeout, fixture, html, nextFrame } from '@open-wc/testing'
+import {assert, aTimeout, fixture, html, nextFrame} from '@open-wc/testing'
 import sinon from 'sinon'
 import '../api-url-params-editor.js'
 
@@ -555,6 +555,26 @@ describe('ApiUrlParamsEditorElement', () => {
       await nextFrame();
       const addParamButton = element.shadowRoot.querySelector('.add-param')
       assert.isNotEmpty(addParamButton.getAttribute('aria-label'))
+    });
+  });
+
+
+  describe('required hint', () => {
+    let element = /** @type ApiUrlParamsEditorElement */ (null);
+    beforeEach(async () => {
+      element = await basicFixture();
+    });
+
+    it('returns the values', () => {
+      element.queryModel = [{name: 'x', value: 'y', schema: {required: false}}];
+
+      assert.isFalse(element._hasRequiredParams(element.queryModel));
+    });
+
+    it('ignores not required and empty items', () => {
+      element.queryModel = [{name: 'x', value: 'y', schema: {required: true}}];
+
+      assert.isTrue(element._hasRequiredParams(element.queryModel));
     });
   });
 });
