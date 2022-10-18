@@ -883,4 +883,23 @@ describe('ApiUrlEditorElement', () => {
       await assert.isAccessible(element);
     });
   });
+
+  describe('_applyUriParams()', () => {
+    let element = /** @type ApiUrlEditorElement */ (null);
+    beforeEach(async () => {
+      element = await basicFixture();
+    });
+
+    it('Does nothing when empty model ', () => {
+      const url = element._applyUriParams("/flights/{id}", undefined);
+      assert.equal(url, '/flights/{id}');
+    });
+
+    it('Replaces template with empty value ', () => {
+      const schema = {required: true, isFile: false, isUnion: false, readOnly: false, apiType: 'string'}
+      const model = [{enabled: true, name: "id", schema, value: ''}]
+      const url = element._applyUriParams("/flights/{id}", model);
+      assert.equal(url, '/flights/');
+    });
+  });
 });
