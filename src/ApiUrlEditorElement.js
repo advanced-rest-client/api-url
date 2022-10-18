@@ -392,13 +392,10 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
     for (let i = 0; i < entries.length; i++) {
       // eslint-disable-next-line prefer-const
       let [name, value] = entries[i];
-      if (!value) {
+      if (value === null || value === undefined) {
         continue;
       }
       value = String(value);
-      if (value.trim() === '') {
-        continue;
-      }
       const { schema={} } = model[i];
       if (!schema.noAutoEncode) {
         if (name[0] === '+' || name[0] === '#') {
