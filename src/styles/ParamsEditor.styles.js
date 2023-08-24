@@ -25,7 +25,7 @@ export default css`
 .params-list {
   margin: 12px 0;
 }
-  
+
 .required-params {
   margin-bottom: 20px;
 }
@@ -49,10 +49,6 @@ api-form-item {
 
 .form-row {
   min-height: 48px;
-}
-
-.param-value {
-  flex: 1;
 }
 
 .param-name {
