@@ -7,35 +7,35 @@ import { UrlEventTypes } from '../index.js';
 
 describe('ApiUrlEditorElement', () => {
   /**
-   * @return {Promise<ApiUrlEditorElement>} 
+   * @return {Promise<ApiUrlEditorElement>}
    */
   async function basicFixture() {
     return (fixture(html`<api-url-editor></api-url-editor>`));
   }
 
   /**
-   * @return {Promise<ApiUrlEditorElement>} 
+   * @return {Promise<ApiUrlEditorElement>}
    */
   async function requiredFixture() {
     return (fixture(html`<api-url-editor required></api-url-editor>`));
   }
 
   /**
-   * @return {Promise<ApiUrlEditorElement>} 
+   * @return {Promise<ApiUrlEditorElement>}
    */
   async function eventsFixture() {
     return (fixture(html`<api-url-editor baseUri="https://domain.com" endpointPath="/{path}"></api-url-editor>`));
   }
 
   /**
-   * @return {Promise<ApiUrlEditorElement>} 
+   * @return {Promise<ApiUrlEditorElement>}
    */
   async function valueFixture() {
     return (fixture(html`<api-url-editor value="https://domain.com/api/path"></api-url-editor>`));
   }
 
   /**
-   * @return {Promise<ApiUrlEditorElement>} 
+   * @return {Promise<ApiUrlEditorElement>}
    */
   async function invalidFixture() {
     return (fixture(html`<api-url-editor value="https://domain.com/{path}" invalid></api-url-editor>`));
@@ -107,6 +107,50 @@ describe('ApiUrlEditorElement', () => {
       element.queryModel = queryModel;
       const match = element.value.match(/&arrayParameter=/g);
       assert.equal(match.length, 2);
+    });
+  });
+
+  describe('Boolean values in query parameters', () => {
+    let element = /** @type ApiUrlEditorElement */ (null);
+    let queryModel;
+    const TEST_PATH = '/path/{var}';
+
+    beforeEach(async () => {
+      element = await basicFixture();
+      element.baseUri = BASE_URI;
+      element.endpointPath = TEST_PATH;
+      queryModel = [
+        {
+          value: false,
+          name: 'test1',
+          schema: {
+            required: true,
+            inputType: 'boolean',
+            isBool: true
+          }
+        },
+        {
+          value: true,
+          name: 'test2',
+          schema: {
+            required: true,
+            inputType: 'boolean',
+            isBool: true
+          }
+        }
+      ];
+    });
+
+    it('includes boolean false as a query parameter in the URL', () => {
+      element.queryModel = queryModel;
+      const match = element.value.match(/test1=false/g);
+      assert.equal(match.length, 1, 'Boolean false should be included in the URL as "test1=false"');
+    });
+
+    it('includes boolean true as a query parameter in the URL', () => {
+      element.queryModel = queryModel;
+      const match = element.value.match(/&test2=true/g);
+      assert.equal(match.length, 1, 'Boolean true should be included in the URL as "&test2=true"');
     });
   });
 
@@ -902,4 +946,6 @@ describe('ApiUrlEditorElement', () => {
       assert.equal(url, '/flights/');
     });
   });
+
+
 });
