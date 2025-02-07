@@ -326,7 +326,7 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
     await this.updateComplete;
     this.validate();
   }
-  
+
   /**
    * Creates a map of serialized values from a model.
    * It is a replacement for `iron-form` serialize function which
@@ -349,11 +349,12 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
     });
     return result;
   }
-  
+
   /**
    * Extracts value from the model item.
-   * If the item is required it is always returned (even  if it is empty string).
+   * If the item is required it is always returned (even if it is an empty string).
    * If value is not required and not present then it returns `undefined`.
+   * Ensures boolean values are correctly preserved.
    *
    * @param {AmfFormItem} item Model item
    * @return {string} Model value
@@ -362,8 +363,14 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
     if (item.schema && item.enabled === false) {
       return undefined;
     }
-    const { schema={} } = item;
+
+    const { schema = {} } = item;
     let { value } = item;
+
+    if (schema.isBool) {
+      return value === false ? "false" : "true";
+    }
+
     if (!value && schema.required) {
       if (value !== 0 && value !== false && value !== null) {
         value = '';
@@ -373,6 +380,7 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
         value = undefined;
       }
     }
+
     return value;
   }
 
@@ -421,7 +429,7 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
     }
     return new RegExp(`{${name}}`);
   }
-  
+
   /**
    * Applies query parameters to the URL.
    * Query parameters that are not required by the API spec and don't have value
@@ -489,7 +497,7 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
   }
 
   /**
-   * @param {ParamsObject[]} object The list of objects to encode as x-www-form-urlencoded string. 
+   * @param {ParamsObject[]} object The list of objects to encode as x-www-form-urlencoded string.
    * Each entry should have `name` and `value` properties.
    * @returns {string}
    */
@@ -502,7 +510,7 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
     });
     return pieces.join('&');
   }
-  
+
   /**
    * @param {string|number} value A key or value to encode as x-www-form-urlencoded.
    * @param {boolean} replacePlus When set it replaces `%20` with `+`.
@@ -572,7 +580,7 @@ export class ApiUrlEditorElement extends EventsTargetMixin(ValidatableMixin(LitE
       obj[name] = parts[1];
     }
   }
-  
+
   /**
    * Applies values from the `values` array to the uri parameters which names are in the `names` array.
    * Both lists are ordered list of parameters.
