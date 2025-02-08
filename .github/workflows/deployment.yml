@@ -13,8 +13,12 @@ on:
       - main
 jobs:
   test_linux:
-    name: ubuntu
-    runs-on: ubuntu-latest
+    name: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -53,7 +57,7 @@ jobs:
   tag:
     name: "Publishing release"
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-    needs: 
+    needs:
       - test_linux
       - test_win
     runs-on: ubuntu-latest
